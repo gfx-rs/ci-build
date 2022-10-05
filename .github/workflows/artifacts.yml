@@ -1,5 +1,8 @@
 name: "Build"
 
+permissions:
+  contents: write
+
 on:
   workflow_dispatch:
     inputs:
@@ -18,11 +21,21 @@ jobs:
           repository: google/swiftshader
           path: swiftshader
 
-      - name: run cmake
+      - name: cmake
         run: |
-          cd swiftshader
-          cd build
+          cd swiftshader/build
 
           cmake .. 
           make -j$(nproc)
-          ls -a
+
+      - name: build
+        run: |
+          cd swiftshader/build
+
+          make -j$(nproc)
+
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: swiftshader/build/Linux/*
+          name: ${{ github.event.inputs.releaseName }}
