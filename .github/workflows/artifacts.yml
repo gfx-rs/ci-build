@@ -20,7 +20,6 @@ jobs:
 
       - name: run cmake
         run: |
-          nproc
           cd swiftshader
           cd build
 
