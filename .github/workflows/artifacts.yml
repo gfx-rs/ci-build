@@ -16,11 +16,15 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: google/swiftshader
-          recursive: true
+          submodules: true
+          path: swiftshader
 
       - name: run cmake
         run: |
+          cd swiftshader
           mkdir -p build
+          cd build
+          
           cmake .. 
           cmake --build . --parallel
           ls -a
