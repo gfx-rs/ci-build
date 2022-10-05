@@ -1,0 +1,24 @@
+on:
+  workflow_dispatch:
+    inputs:
+      releaseName:
+        description: "Output release name"
+        required: true
+        type: string
+
+jobs:
+  swiftshader:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout swiftshader
+        uses: actions/checkout@v3
+        with:
+          repository: google/swiftshader
+          recursive: true
+
+      - name: run cmake
+        run: |
+          mkdir -p build
+          cmake .. 
+          cmake --build . --parallel
+          ls -a
