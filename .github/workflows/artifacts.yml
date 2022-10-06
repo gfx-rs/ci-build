@@ -14,18 +14,26 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: windows-swiftshader
+          - name: windows-x86_64-swiftshader
             os: windows-latest
             short_os: windows
             out_dir: Windows
-          - name: macos-swiftshader
+            arch: x86_64
+          - name: macos-arm64-swiftshader
             os: macos-latest
             short_os: darwin
             out_dir: Darwin
-          - name: linux-swiftshader
+            arch: arm64
+          - name: macos-x86_64-swiftshader
+            os: macos-latest
+            short_os: darwin
+            out_dir: Darwin
+            arch: x86_64
+          - name: linux-x86_64-swiftshader
             os: ubuntu-latest
             short_os: linux
             out_dir: Linux
+            arch: x86_64
 
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -49,7 +57,7 @@ jobs:
           cd swiftshader/build
 
           # We don't need ccache anyway and windows builds fail due to a bug in ccache.
-          cmake .. -G Ninja -DCCACHE_FOUND=CCACHE_FOUND-NOTFOUND
+          cmake .. -G Ninja -DCCACHE_FOUND=CCACHE_FOUND-NOTFOUND -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }}
 
       - name: build
         run: |
@@ -67,4 +75,4 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: swiftshader/build/swiftshader-${{ matrix.short_os }}.tar.xz
+          files: swiftshader/build/swiftshader-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
