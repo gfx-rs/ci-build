@@ -45,14 +45,12 @@ jobs:
           cd swiftshader/build
 
           cmake .. -G Ninja
-        shell: bash
 
       - name: build
         run: |
           cd swiftshader/build
 
           ninja
-        shell: bash
 
       - name: compress
         run: |
