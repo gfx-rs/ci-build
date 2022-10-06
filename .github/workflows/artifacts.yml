@@ -69,7 +69,7 @@ jobs:
         run: |
           cd swiftshader/build
 
-          tar -cvf swiftshader-${{ matrix.short_os }}.tar.xz -C ${{ matrix.out_dir }} .
+          tar -cvf swiftshader-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz -C ${{ matrix.out_dir }} .
         shell: bash
 
       - name: release
