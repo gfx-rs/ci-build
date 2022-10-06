@@ -44,7 +44,7 @@ jobs:
         run: |
           cd swiftshader/build
 
-          cmake .. -G ninja
+          cmake .. -G Ninja
         shell: bash
 
       - name: build
