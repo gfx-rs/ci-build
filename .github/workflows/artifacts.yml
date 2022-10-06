@@ -48,6 +48,7 @@ jobs:
         run: |
           cd swiftshader/build
 
+          # We don't need ccache anyway and windows builds fail due to a bug in ccache.
           cmake .. -G Ninja -DCCACHE_FOUND=CCACHE_FOUND-NOTFOUND
 
       - name: build
@@ -60,7 +61,7 @@ jobs:
         run: |
           cd swiftshader/build
 
-          tar -cvf swiftshader-${{ matrix.short_os }}.tar.xz ${{ matrix.out_dir }}/*
+          tar -cvf swiftshader-${{ matrix.short_os }}.tar.xz -C ${{ matrix.out_dir }} .
         shell: bash
 
       - name: release
