@@ -18,14 +18,17 @@ jobs:
             os: windows-latest
             short_os: windows
             out_dir: Windows
+            jobs: 3
           - name: macos-swiftshader
             os: macos-latest
             short_os: darwin
             out_dir: Darwin
+            jobs: 4
           - name: linux-swiftshader
             os: ubuntu-latest
             short_os: linux
             out_dir: Linux
+            jobs: 3
   
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
@@ -48,7 +51,8 @@ jobs:
         run: |
           cd swiftshader/build
 
-          make -j$(nproc)
+          # linux is 2 and mac is 3
+          make -j${{ matrix.jobs }}
         shell: bash
           
       - name: compress
