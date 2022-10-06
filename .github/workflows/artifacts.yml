@@ -4,12 +4,7 @@ permissions:
   contents: write
 
 on:
-  workflow_dispatch:
-    inputs:
-      releaseName:
-        description: "Output release name"
-        required: true
-        type: string
+  - push
 
 jobs:
   swiftshader:
@@ -31,10 +26,9 @@ jobs:
         run: |
           cd swiftshader/build
 
-          make -j$(nproc)
+          # make -j$(nproc)
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: swiftshader/build/Linux/*
-          name: ${{ github.event.inputs.releaseName }}
+          files: swiftshader/build/
