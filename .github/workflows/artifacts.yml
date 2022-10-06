@@ -36,7 +36,7 @@ jobs:
 
       - name: setup developer command prompt
         uses: ilammy/msvc-dev-cmd@v1
-        if: ${{ matrix.short_os }} == "windows"
+        if: matrix.short_os == 'windows'
 
       - name: checkout swiftshader
         uses: actions/checkout@v3
@@ -48,7 +48,7 @@ jobs:
         run: |
           cd swiftshader/build
 
-          cmake .. -G Ninja
+          cmake .. -G Ninja -DCCACHE_FOUND=CCACHE_FOUND-NOTFOUND
 
       - name: build
         run: |
