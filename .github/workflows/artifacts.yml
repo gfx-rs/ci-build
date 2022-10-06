@@ -6,11 +6,30 @@ permissions:
 on:
   push:
     tags:
-      - "build*" 
+      - "build-*" 
 
 jobs:
   swiftshader:
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: windows-swiftshader
+            os: windows-latest
+            short_os: windows
+            out_dir: Windows
+          - name: macos-swiftshader
+            os: macos-latest
+            short_os: darwin
+            out_dir: Darwin
+          - name: linux-swiftshader
+            os: ubuntu-latest
+            short_os: linux
+            out_dir: Linux
+  
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+            
     steps:
       - name: Checkout swiftshader
         uses: actions/checkout@v3
@@ -23,14 +42,23 @@ jobs:
           cd swiftshader/build
 
           cmake ..
+        shell: bash
 
       - name: build
         run: |
           cd swiftshader/build
 
           make -j$(nproc)
+        shell: bash
+          
+      - name: compress
+        run: |
+          cd swiftshader/build
+          
+          tar -cvf swiftshader-${{ matrix.short_os }}.tar.xz ${{ matrix.out_dir }}/*
+        shell: bash
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: swiftshader/build/Linux/*
+          files: swiftshader/build/swiftshader-${{ matrix.short_os }}.tar.xz
