@@ -51,8 +51,7 @@ jobs:
         run: |
           cd swiftshader/build
 
-          # linux is 2 and mac is 3
-          make -j${{ matrix.jobs }}
+          CMAKE_BUILD_PARALLEL_LEVEL=${{ matrix.jobs }} cmake --build . --parallel
         shell: bash
           
       - name: compress
