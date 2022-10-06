@@ -4,7 +4,8 @@ permissions:
   contents: write
 
 on:
-  - push
+  push:
+    - tag
 
 jobs:
   swiftshader:
@@ -26,9 +27,9 @@ jobs:
         run: |
           cd swiftshader/build
 
-          # make -j$(nproc)
+          make -j$(nproc)
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: swiftshader/build/
+          files: swiftshader/build/Linux/*
