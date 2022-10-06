@@ -34,6 +34,10 @@ jobs:
       - name: install ninja
         uses: seanmiddleditch/gha-setup-ninja@master
 
+      - name: setup developer command prompt
+        uses: ilammy/msvc-dev-cmd@v1
+        if: ${{ matrix.short_os }} == "windows"
+
       - name: checkout swiftshader
         uses: actions/checkout@v3
         with:
