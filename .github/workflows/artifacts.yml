@@ -88,7 +88,6 @@ jobs:
           - name: linux-x86_64-mesa
             os: ubuntu-latest
             short_os: linux
-            out_dir: Linux
             arch: x86_64
 
     runs-on: ${{ matrix.os }}
@@ -123,9 +122,9 @@ jobs:
         run: |
           cd mesa-$MESA_VERSION/install
 
-          tar -cvf mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz -C ${{ matrix.out_dir }} .
+          tar -cvf ../mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz .
 
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: mesa-$MESA_VERSION/install/mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
+          files: mesa-$MESA_VERSION/mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
