@@ -8,6 +8,9 @@ on:
     tags:
       - "*"
 
+env:
+  MESA_VERSION: "23.3.1"
+
 jobs:
   swiftshader:
     strategy:
@@ -76,3 +79,53 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: swiftshader/build/swiftshader-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
+
+  mesa:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x86_64-mesa
+            os: ubuntu-latest
+            short_os: linux
+            out_dir: Linux
+            arch: x86_64
+
+    runs-on: ${{ matrix.os }}
+    name: ${{ matrix.name }}
+
+    steps:
+      - name: install ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+
+      - name: install dependencies
+        run: |
+          sudo apt-get install -y meson libdrm-dev byacc flex
+
+      - name: download mesa
+        run: |
+          curl -L --retry 5 https://archive.mesa3d.org/mesa-$MESA_VERSION.tar.xz -o mesa-$MESA_VERSION.tar.xz
+          tar xf mesa-$MESA_VERSION.tar.xz
+
+      - name: setup
+        run: |
+          cd mesa-$MESA_VERSION
+
+          meson setup builddir/ --buildtype=release -Dprefix="${PWD}/install/" -Dgallium-drivers=swrast -Dvulkan-drivers=swrast -Dplatforms= -Dglx=disabled
+
+      - name: build
+        run: |
+          cd mesa-$MESA_VERSION
+
+          meson install -C builddir/
+
+      - name: compress
+        run: |
+          cd mesa-$MESA_VERSION/install
+
+          tar -cvf mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz -C ${{ matrix.out_dir }} .
+
+      - name: release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: mesa-$MESA_VERSION/install/mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
