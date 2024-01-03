@@ -100,7 +100,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt-get install -y meson libdrm-dev byacc flex
+          sudo apt-get install -y meson libdrm-dev byacc flex python3-mako
 
       - name: download mesa
         run: |
