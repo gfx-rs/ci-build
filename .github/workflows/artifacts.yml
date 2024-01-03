@@ -127,4 +127,4 @@ jobs:
       - name: release
         uses: softprops/action-gh-release@v1
         with:
-          files: mesa-$MESA_VERSION/mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
+          files: mesa-${{ env.MESA_VERSION }}/mesa-${{ env.MESA_VERSION }}-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
