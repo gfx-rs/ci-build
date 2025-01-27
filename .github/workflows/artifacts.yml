@@ -9,7 +9,7 @@ on:
       - "*"
 
 env:
-  MESA_VERSION: "24.2.3"
+  MESA_VERSION: "24.3.4"
 
 jobs:
   swiftshader:
