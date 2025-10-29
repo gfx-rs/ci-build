@@ -43,7 +43,7 @@ jobs:
         run: |
           cd mesa-$MESA_VERSION
 
-          meson setup builddir/ --buildtype=release -Dprefix="${PWD}/install/" -Dgallium-drivers=llvmpipe -Dvulkan-drivers=lavapiipe -Dplatforms= -Dglx=disabled
+          meson setup builddir/ --buildtype=release -Dprefix="${PWD}/install/" -Dgallium-drivers=llvmpipe -Dvulkan-drivers=swrast -Dplatforms= -Dglx=disabled
 
       - name: build
         run: |
