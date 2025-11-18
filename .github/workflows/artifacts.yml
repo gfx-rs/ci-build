@@ -35,7 +35,7 @@ jobs:
           pip3 install --user meson
 
       - name: install vulkansdk
-        uses: gfx-rs/wgpu/.github/actions/install-warp@v27.0.4
+        uses: gfx-rs/wgpu/.github/actions/install-vulkan-sdk@v27.0.4
 
       - name: download mesa
         run: |
