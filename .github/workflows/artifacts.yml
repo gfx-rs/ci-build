@@ -9,7 +9,7 @@ on:
       - "*"
 
 env:
-  MESA_VERSION: "25.2.6"
+  MESA_VERSION: "25.2.7"
 
 jobs:
   mesa:
