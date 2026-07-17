@@ -9,7 +9,7 @@ on:
       - "*"
 
 env:
-  MESA_VERSION: "25.2.7"
+  MESA_VERSION: "26.0.3"
 
 jobs:
   mesa:
@@ -58,7 +58,7 @@ jobs:
         run: |
           cd mesa-$MESA_VERSION/install
 
-          tar -cvf ../mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz .
+          tar --create --xz --verbose --file ../mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz .
 
       - name: release
         uses: softprops/action-gh-release@v1
