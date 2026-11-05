@@ -7,7 +7,8 @@ Automated action for building/hosting components we need in CI
 If you push a new tag to this repository, the "Build" action in
 [`artifacts.yml`] will fetch the Mesa sources from `archive.mesa3d.org`, build
 them from source, and post a new GitHub release named after the tag. Generally
-we use tags named `buildN`.
+we use tags named `buildN`. A push to a branch runs the same build, but does not
+post a release.
 
 The [`wgpu`] repository's CI and CTS jobs use `wgpu`'s [`Install Mesa`] action
 to install these releases on Linux. On Windows, that action fetches a prebuilt

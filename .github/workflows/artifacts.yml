@@ -5,6 +5,8 @@ permissions:
 
 on:
   push:
+    branches:
+      - "**"
     tags:
       - "*"
 
@@ -18,7 +20,7 @@ jobs:
       matrix:
         include:
           - name: linux-x86_64-mesa
-            os: ubuntu-latest
+            os: ubuntu-26.04
             short_os: linux
             arch: x86_64
 
@@ -61,6 +63,7 @@ jobs:
           tar --create --xz --verbose --file ../mesa-$MESA_VERSION-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz .
 
       - name: release
+        if: startsWith(github.ref, 'refs/tags/')
         uses: softprops/action-gh-release@v1
         with:
           files: mesa-${{ env.MESA_VERSION }}/mesa-${{ env.MESA_VERSION }}-${{ matrix.short_os }}-${{ matrix.arch }}.tar.xz
